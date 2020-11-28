@@ -1,0 +1,13 @@
+az account set --subscription "name of subs"
+
+az group list
+
+az network vnet create --name VMnet --resource-group VMtest --location eastus --address-prefix 10.10.0.0/16
+
+az network vnet subnet create --address-prefix 10.10.20.0/24 --name VMnetsub1 --resource-group VMtest --vnet-name VMnet
+
+az network public-ip create --name VMpubip1 --resource-group VMtest --location eastus --allocation-method dynamic
+
+az network nic create --resource-group VMtest --name VMNic1 --vnet-name VMnet --subnet VMnetsub1 --public-ip-address VMpubip1
+
+az vm create --resource-group VMtest --location eastus --nics VMNic1 --name VM1 --image UbuntuLTS --size Standard_B1ls --admin-username ubuntu --generate-ssh-keys
